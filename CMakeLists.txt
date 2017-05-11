@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 
 # Project
 project(protobuf-udp)
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(protobuf_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Find required protobuf package
@@ -44,6 +44,9 @@ foreach(proto_file ${PROTOS})
   )
 endforeach()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_library(udp src/udp.cc)
+
 #Executable setup
 set(executable_name add_person_cpp)
 add_executable(${executable_name} src/add_person.cc ${PROTO_SRCS})
@@ -52,3 +55,12 @@ target_link_libraries(${executable_name} ${PROTOBUF_LIBRARIES})
 set(executable_name list_people_cpp)
 add_executable(${executable_name} src/list_people.cc ${PROTO_SRCS})
 target_link_libraries(${executable_name} ${PROTOBUF_LIBRARIES})
+
+#Executable setup
+set(executable_name send_addressbook_cpp)
+add_executable(${executable_name} src/send_addressbook.cc ${PROTO_SRCS})
+target_link_libraries(${executable_name} ${PROTOBUF_LIBRARIES} udp)
+
+set(executable_name recv_addressbook_cpp)
+add_executable(${executable_name} src/recv_addressbook.cc ${PROTO_SRCS})
+target_link_libraries(${executable_name} ${PROTOBUF_LIBRARIES} udp)
