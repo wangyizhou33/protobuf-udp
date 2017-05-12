@@ -195,7 +195,7 @@ bool Socket::open(uint16_t port, bool non_blocking)
         }
     }
 
-    std::cerr << "Socket created at port: " << port;
+    std::cout << "Socket created at port: " << port << std::endl;
 
     return true;
 }
